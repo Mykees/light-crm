@@ -13,7 +13,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={
+ *          "groups"={"users_read"}
+ *      }
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email",message="Un utilisateur avec cette email existe déjà")
  */
@@ -29,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"customers_read","invoices_read","invoices_subresource"})
+     * @Groups({"customers_read","invoices_read","invoices_subresource","users_read"})
      * @Assert\NotBlank(message="L'email doit être renseigné")
      * @Assert\Email(message="L'addresse email doit avoir un format valid")
      */
@@ -50,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customers_read","invoices_read","invoices_subresource"})
+     * @Groups({"customers_read","invoices_read","invoices_subresource","users_read"})
      * @Assert\NotBlank(message="Le firstname est obligatoire")
      * @Assert\Length (min=3,minMessage="Le firstname doit faire entre 3 et 255 caractères",max=255,maxMessage="Le firstname doit faire entre 3 et 255 caractères")
      */
@@ -58,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customers_read","invoices_read","invoices_subresource"})
+     * @Groups({"customers_read","invoices_read","invoices_subresource","users_read"})
      * @Assert\NotBlank(message="Le lastname est obligatoire")
      * @Assert\Length (min=3,minMessage="Le lastname doit faire entre 3 et 255 caractères",max=255,maxMessage="Le lastname doit faire entre 3 et 255 caractères")
      */
