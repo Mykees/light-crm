@@ -56,7 +56,7 @@ class Customer
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read"})
+     * @Groups({"customers_read","invoices_read"})
      * @Assert\NotBlank(message="Votre addresse email ne peut pas être vide")
      * @Assert\Email(message="le format de votre addresse email n'est pas valid")
      */

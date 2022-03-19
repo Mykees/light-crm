@@ -11,11 +11,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
- *      attributes={
- *          "pagination_enabled"=true,
- *          "pagination_items_per_page"=5,
- *          "order": {"amount":"desc"}
- *     },
  *     subresourceOperations={
  *          "api_customers_invoices_get_subresource"={
  *              "normalization_context":{"groups"={"invoices_subresource"}}
