@@ -2,6 +2,12 @@
 
 Small symfony app that allows you to manage invoice customers and users.
 
+Features:
+- Authentication with JWT (JSON WEB TOKEN)
+- Manage (CRUD) Customers,Invoices and Users
+- Filter Data
+- Pagination
+
 install:
 clone project
 https://github.com/Mykees/light-crm.git
