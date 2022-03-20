@@ -6,7 +6,7 @@ const Pagination = ({currentPage, setCurrentPage, itemsPerPage, length}) => {
     const pages = [];
     let dots = false;
     const ends_count = 2;  //how many items at the ends (before and after [...])
-    const middle_count = 2;  //how many items before and after current page
+    const middle_count = 1;  //how many items before and after current page
 
     for( let i=1; i<= pagesCount; i++) {
         pages.push(i)
