@@ -1,15 +1,34 @@
 import React from "react";
 
 
-const HomePage = (props) => {
+const HomePage = ({isAuthenticated}) => {
+
+    const welcome = () => {
+        if(isAuthenticated){
+            return (
+                <>
+                    <h1 className="display-5 fw-bold border-bottom">Félicitation ! Vous êtes bien connecté !</h1>
+                    <p className="col-md-8 fs-4">
+                        Vous pouvez maintenant gérer vos clients/factures
+                    </p>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <h1 className="display-5 fw-bold border-bottom">Bienvenue sur Light-crm App</h1>
+                    <p className="col-md-8 fs-4">
+                        Inscrivez-vous/Connectez-vous pour gérer vos clients/factures
+                    </p>
+                </>
+            )
+        }
+    }
+
     return (
         <div className="p-5 mb-4 bg-light rounded-3">
             <div className="container-fluid py-5">
-                <h1 className="display-5 fw-bold">Custom jumbotron</h1>
-                <p className="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the
-                    one in previous versions of Bootstrap. Check out the examples below for how you can remix and
-                    restyle it to your liking.</p>
-                <button className="btn btn-primary btn-lg" type="button">Example button</button>
+                {welcome()}
             </div>
         </div>
     )

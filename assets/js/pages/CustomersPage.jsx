@@ -105,7 +105,7 @@ const CustomersPage = (props) => {
                             <td>{customer.company}</td>
                             <td>{customer.invoices.length}</td>
                             <td>
-                                {totalAmount(customer)}
+                                {totalAmount(customer)} €
                             </td>
                             <td>
                                 <Link to={"/customers/"+customer.id} className={"btn btn-sm btn-primary me-1"}>

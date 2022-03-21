@@ -55,7 +55,7 @@ const App = () => {
         <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>
         <div className="container my-5">
             <Routes>
-                <Route path="/" element={<HomePage/>} />
+                <Route path="/" element={<HomePage isAuthenticated={isAuthenticated}/>} />
                 {/*<PrivateRoute2 path="/customers" element={<CustomersPage />} />*/}
                 <Route path="/customers" element={<PrivateRoute isAuthenticated={isAuthenticated}><CustomersPage /></PrivateRoute>} />
                 <Route path="/invoices" element={<PrivateRoute isAuthenticated={isAuthenticated}><InvoicesPage /></PrivateRoute>} />
