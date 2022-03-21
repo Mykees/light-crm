@@ -4,6 +4,7 @@ import CustomersAPI from "../services/customersAPI";
 import AuthAPI from "../services/AuthAPI";
 import {Navigate} from 'react-router-dom'
 import Input from "../components/form/Input";
+import {toast} from "react-toastify";
 
 const LoginPage = ({setIsAuthenticated}) => {
     const [credentials,setCredentials] = useState({
@@ -32,8 +33,14 @@ const LoginPage = ({setIsAuthenticated}) => {
             await AuthAPI.Authenticate(credentials)
             setIsAuthenticated(true)
             setError("")
+            toast.success('Vous êtes désormais connecté !', {
+                theme: "colored"
+            })
             return <Navigate to="/" replace />
         }catch (error) {
+            toast.error("Aucun compte n'a été trouvé", {
+                theme: "colored"
+            })
             setError("Bad credentials")
         }
     }

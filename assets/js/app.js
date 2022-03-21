@@ -27,6 +27,8 @@ import AuthAPI from "./services/AuthAPI";
 import {Navigate} from 'react-router-dom';
 import CustomerPage from "./pages/CustomerPage";
 import RegisterPage from "./pages/RegisterPage";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 // import CustomersPagePaginate from "./pages/CustomersPagePaginate";
 
 const PrivateRoute = ({isAuthenticated, children}) => {
@@ -62,6 +64,7 @@ const App = () => {
                 <Route path="/login" element={<RedirectAuthenticated isAuthenticated={isAuthenticated}><LoginPage setIsAuthenticated={setIsAuthenticated}/></RedirectAuthenticated>} />
                 <Route path="/register" element={<RedirectAuthenticated isAuthenticated={isAuthenticated}><RegisterPage setIsAuthenticated={setIsAuthenticated}/></RedirectAuthenticated>} />
             </Routes>
+            <ToastContainer pauseOnFocusLoss={false} position={toast.POSITION.BOTTOM_LEFT}/>
         </div>
     </>
 }

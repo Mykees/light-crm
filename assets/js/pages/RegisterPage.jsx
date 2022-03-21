@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Input from "../components/form/Input";
 import AuthAPI from "../services/AuthAPI";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 
 const RegisterPage = () => {
@@ -43,6 +44,7 @@ const RegisterPage = () => {
         try{
             await AuthAPI.register(user)
             setErrors({})
+            toast.success("Vous ête bien inscrit", {theme: "colored"})
             navigate('/login')
         }catch(error) {
             const apiErrors = {};
@@ -55,6 +57,7 @@ const RegisterPage = () => {
                 apiErrors.passwordConfirm = "Les mots de passe ne sont pas identiques"
             }
             setErrors(apiErrors)
+            toast.error("Veuillez corrigé vos erreurs", {theme: "colored"})
         }
     }
 

@@ -2,11 +2,14 @@ import React, {useEffect, useState} from "react";
 import Input from "../components/form/Input";
 import {useParams,useNavigate} from "react-router-dom";
 import CustomersAPI from "../services/customersAPI";
+import {toast} from "react-toastify";
+import FormLoader from "../components/loaders/FormLoader";
 
 const CustomerPage = (props) => {
     const navigate = useNavigate();
     const params = useParams()
     const id = params.id
+    const [loading, setLoading] = useState(true)
     const [customer, setCustomer] = useState({
         lastname:"",
         firstname: "",
@@ -33,10 +36,13 @@ const CustomerPage = (props) => {
         try {
             if(editing){
                 await CustomersAPI.update(id, customer)
+                toast.success("Le client à bien été édité", {theme: "colored"})
             }else{
                 await CustomersAPI.create(customer)
+                toast.success("Le client à bien été créé", {theme: "colored"})
             }
             setErrors({})
+
             navigate("/customers")
 
         }catch (error) {
@@ -46,6 +52,7 @@ const CustomerPage = (props) => {
                     apiErrors[violation.propertyPath] = violation.message
                 })
                 setErrors(apiErrors)
+                toast.error("Veuillez corrigé vos erreurs", {theme: "colored"})
             }
         }
     }
@@ -59,8 +66,10 @@ const CustomerPage = (props) => {
                  email: data.email,
                  company: data.company,
              })
+            setLoading(false)
         }catch (error) {
             console.log(error.response.statusText)
+            toast.error("Le client n'a pas pu être chargé", {theme: "colored"})
         }
     }
 
@@ -75,7 +84,7 @@ const CustomerPage = (props) => {
         <>
             {!editing && <h1>Ajouter un nouveau client</h1> || <h1>Modification d'un client</h1>}
 
-            <form onSubmit={handleSubmit}>
+            {(loading && editing) && <FormLoader/> || <form onSubmit={handleSubmit}>
                 <Input
                     label={"Nom"}
                     value={customer.lastname}
@@ -110,7 +119,7 @@ const CustomerPage = (props) => {
                 />
 
                 <button type={"submit"} className="btn btn-success">Sauvegarder</button>
-            </form>
+            </form>}
         </>
     )
 }

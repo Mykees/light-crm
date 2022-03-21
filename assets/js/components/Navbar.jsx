@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import AuthAPI from "../services/AuthAPI";
 import {Navigate} from 'react-router-dom'
+import {toast} from "react-toastify";
 
 const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
 
@@ -9,6 +10,9 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
         event.preventDefault()
         await AuthAPI.logout();
         setIsAuthenticated(false)
+        toast.success("Vous êtes désormais déconnecté", {
+            theme: "colored"
+        })
         return <Navigate to="/login" replace />
     }
 

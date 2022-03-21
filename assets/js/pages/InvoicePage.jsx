@@ -4,10 +4,13 @@ import {useParams,useNavigate} from "react-router-dom";
 import Select from "../components/form/Select";
 import CustomersAPI from "../services/customersAPI";
 import InvoicesAPI from "../services/invoicesAPI";
+import {toast} from "react-toastify";
+import FormLoader from "../components/loaders/FormLoader";
 
 
 const InvoicePage = (props) => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true)
     const params = useParams()
     const id = params.id
     const [invoice, setInvoice] = useState({
@@ -45,8 +48,10 @@ const InvoicePage = (props) => {
         try{
             if(editing){
                 await InvoicesAPI.update(id, {...invoice, customer:`/api/customers/${invoice.customer}`})
+                toast.success("La facture à bien été éditée", {theme: "colored"})
             }else{
                 await InvoicesAPI.create({...invoice, customer:`/api/customers/${invoice.customer}`})
+                toast.success("La facture à bien été créée", {theme: "colored"})
             }
             setErrors({})
             navigate("/invoices")
@@ -57,6 +62,7 @@ const InvoicePage = (props) => {
                     apiErrors[violation.propertyPath] = violation.message
                 })
                 setErrors(apiErrors)
+                toast.error("Veuillez corrigé vos erreurs", {theme: "colored"})
             }
         }
     }
@@ -68,8 +74,10 @@ const InvoicePage = (props) => {
             if(id === "new") {
                 setInvoice({...invoice, customer: data[0].id})
             }
+            setLoading(false)
         }catch (error) {
             console.log(error.response)
+            toast.error("Les factures n'a pas pu être chargé", {theme: "colored"})
         }
     }
     /**
@@ -85,8 +93,10 @@ const InvoicePage = (props) => {
                 customer: data.customer.id,
                 status: data.status,
             })
+            setLoading(false)
         }catch (error) {
             console.log(error.response)
+            toast.error("La facture n'a pas pu être chargé", {theme: "colored"})
         }
     }
 
@@ -101,7 +111,7 @@ const InvoicePage = (props) => {
     return (
         <>
             {!editing && <h1>Ajouter une nouvelle facture</h1> || <h1>Modification d'une facture</h1>}
-            <form onSubmit={handleSubmit}>
+            {loading && <FormLoader/> || <form onSubmit={handleSubmit}>
                 <Input
                     label={"Montant"}
                     value={invoice.amount}
@@ -148,7 +158,7 @@ const InvoicePage = (props) => {
                 </Select>
 
                 <button className="btn btn-success" type={"submit"}>Sauvegarder</button>
-            </form>
+            </form>}
         </>
     )
 }

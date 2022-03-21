@@ -2,10 +2,13 @@ import React,{useEffect,useState} from "react";
 import Pagination from "../components/Pagination";
 import CustomersAPI from "../services/customersAPI";
 import {Link} from "react-router-dom";
+import {toast} from "react-toastify";
+import TableLoader from "../components/loaders/TableLoader";
 
 const CustomersPage = (props) => {
     const [customers, setCustomers] = useState([])
     const  [currentPage, setCurrentPage] = useState(1)
+    const [loading, setLoading] = useState(true)
     const  [search, setSearch] = useState("")
     const itemsPerPage = 10
 
@@ -14,8 +17,10 @@ const CustomersPage = (props) => {
         try {
             const data = await CustomersAPI.findAll()
             setCustomers(data)
+            setLoading(false)
         }catch (error) {
             console.log(error.response)
+            toast.error("Les clients n'ont pas pu être chargé", {theme: "colored"})
         }
     }
     //On supprimer un customer
@@ -26,9 +31,11 @@ const CustomersPage = (props) => {
 
             try {
                 await CustomersAPI.delete(id)
+                toast.success("Le client à bien été supprimé", {theme: "colored"})
             }catch (error) {
                 setCustomers(initialCustomers)
                 console.log(error.response)
+                toast.error("Le client n'a pas pu être supprimé", {theme: "colored"})
             }
 
         }
@@ -74,7 +81,7 @@ const CustomersPage = (props) => {
                 <input type="text" onChange={handleSearch} className="form-control" value={search} placeholder={"Rechercher"}/>
             </div>
 
-            <table className="table table-hover">
+            {loading && <TableLoader/> || <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -89,7 +96,11 @@ const CustomersPage = (props) => {
                     {paginatedCustomers && paginatedCustomers.map((customer) => (
                         <tr key={customer.id}>
                             <td>{customer.id}</td>
-                            <td><a href="#">{customer.firstname} {customer.lastname}</a></td>
+                            <td>
+                                <Link to={"/customers/"+customer.id}>
+                                    {customer.firstname} {customer.lastname}
+                                </Link>
+                            </td>
                             <td>{customer.email}</td>
                             <td>{customer.company}</td>
                             <td>{customer.invoices.length}</td>
@@ -114,7 +125,8 @@ const CustomersPage = (props) => {
                         </tr>
                     ) )}
                 </tbody>
-            </table>
+            </table>}
+
 
             {itemsPerPage < filteredCustomers.length && <Pagination
                 currentPage={currentPage}

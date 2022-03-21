@@ -3,17 +3,22 @@ import InvoicesAPI from "../services/invoicesAPI";
 import moment from "moment";
 import Pagination from "../components/Pagination";
 import {Link} from "react-router-dom";
+import {toast} from "react-toastify";
+import TableLoader from "../components/loaders/TableLoader";
 
 const InvoicesPage = (props) => {
     const [invoices, setInvoices] = useState([])
     const  [currentPage, setCurrentPage] = useState(1)
     const  [search, setSearch] = useState("")
+    const [loading, setLoading] = useState(true)
     const itemsPerPage = 10
     const fetchInvoices = async () => {
         try {
             const data = await InvoicesAPI.findAll()
             setInvoices(data)
+            setLoading(false)
         }catch (error) {
+            toast.error("Les factures n'ont pas pu être chargé", {theme: "colored"})
             console.log(error.response)
         }
     }
@@ -24,9 +29,11 @@ const InvoicesPage = (props) => {
 
             try {
                 await InvoicesAPI.delete(id)
+                toast.success("La facture à bien été supprimé", {theme: "colored"})
             }catch (error) {
                 setInvoices(initialInvoices)
                 console.log(error.response)
+                toast.error("La facture n'a pas pu être supprimé", {theme: "colored"})
             }
         }
     }
@@ -81,23 +88,27 @@ const InvoicesPage = (props) => {
                 <input type="text" onChange={handleSearch} value={search} className="form-control" placeholder="Rechercher"/>
             </div>
 
-            <table className="table table-hover">
+            {loading && <TableLoader/> || <table className="table table-hover">
                 <thead>
-                    <tr>
-                        <th>Numéro</th>
-                        <th>Client</th>
-                        <th>Date d'envoi</th>
-                        <th>Status</th>
-                        <th>Montant</th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Client</th>
+                    <th>Date d'envoi</th>
+                    <th>Status</th>
+                    <th>Montant</th>
+                    <th></th>
+                </tr>
                 </thead>
 
                 <tbody>
                 {PaginatedInvoices && PaginatedInvoices.map((invoice) => (
                     <tr key={invoice.id}>
                         <td>{invoice.chrono}</td>
-                        <td><a href="#">{invoice.customer.firstname} {invoice.customer.lastname}</a></td>
+                        <td>
+                            <Link to={"/invoices/"+invoice.id}>
+                                {invoice.customer.firstname} {invoice.customer.lastname}
+                            </Link>
+                        </td>
                         <td>{formatDate(invoice.sentAt)}</td>
                         <td>
                             {<span className={status(invoice.status)}>{invoice.status}</span>}
@@ -120,7 +131,7 @@ const InvoicesPage = (props) => {
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </table>}
 
             {itemsPerPage < filteredInvoices.length && <Pagination
                 currentPage={currentPage}
