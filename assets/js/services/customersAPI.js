@@ -1,11 +1,12 @@
 import axios from "axios";
+import {CUSTOMERS_API} from "./config";
 
 /**
  * Récupération de tous les customers
  * @returns {Promise<AxiosResponse<any>>}
  */
 function findAll () {
-    return axios.get("http://127.0.0.1:8001/api/customers")
+    return axios.get(CUSTOMERS_API)
         .then(response => response.data['hydra:member'])
 }
 
@@ -15,7 +16,7 @@ function findAll () {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function deleteCustomer( id ){
-    return axios.delete("http://127.0.0.1:8001/api/customers/" + id)
+    return axios.delete(CUSTOMERS_API+`/${id}`)
 }
 
 /**
@@ -24,7 +25,7 @@ function deleteCustomer( id ){
  * @returns {Promise<AxiosResponse<any>>}
  */
 function find(id) {
-    return axios.get("http://127.0.0.1:8001/api/customers/"+id)
+    return axios.get(CUSTOMERS_API+`/${id}`)
         .then(response => response.data)
 }
 
@@ -34,7 +35,7 @@ function find(id) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function create(data) {
-    return axios.post("http://127.0.0.1:8001/api/customers", data)
+    return axios.post(CUSTOMERS_API, data)
 }
 
 /**
@@ -44,7 +45,7 @@ function create(data) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function update(id, data) {
-    return axios.put("http://127.0.0.1:8001/api/customers/"+id, data)
+    return axios.put(CUSTOMERS_API+`/${id}`, data)
 }
 
 

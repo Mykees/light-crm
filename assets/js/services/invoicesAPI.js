@@ -1,14 +1,15 @@
 import React from "react";
 import axios from "axios";
+import {INVOICES_API} from "./config";
 
 
 function findAll () {
-    return axios.get("http://127.0.0.1:8001/api/invoices")
+    return axios.get(INVOICES_API)
         .then(response => response.data['hydra:member'])
 }
 
 function deleteInvoice ( id ) {
-    return axios.delete("http://127.0.0.1:8001/api/invoices/" + id)
+    return axios.delete(INVOICES_API + `/${id}`)
 }
 
 /**
@@ -17,7 +18,7 @@ function deleteInvoice ( id ) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function find(id) {
-    return axios.get("http://127.0.0.1:8001/api/invoices/"+id)
+    return axios.get(INVOICES_API+`/${id}`)
         .then(response => response.data)
 }
 
@@ -27,7 +28,7 @@ function find(id) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function create(data) {
-    return axios.post("http://127.0.0.1:8001/api/invoices", data)
+    return axios.post(INVOICES_API, data)
 }
 
 /**
@@ -37,7 +38,7 @@ function create(data) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 function update(id, data) {
-    return axios.put("http://127.0.0.1:8001/api/invoices/"+id, data)
+    return axios.put(INVOICES_API+`/${id}`, data)
 }
 
 export default {
