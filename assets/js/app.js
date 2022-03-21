@@ -21,9 +21,12 @@ import {
 } from "react-router-dom";
 import CustomersPage from "./pages/CustomersPage";
 import InvoicesPage from "./pages/InvoicesPage";
+import InvoicePage from "./pages/InvoicePage";
 import LoginPage from "./pages/LoginPage";
 import AuthAPI from "./services/AuthAPI";
-import {Navigate} from 'react-router-dom'
+import {Navigate} from 'react-router-dom';
+import CustomerPage from "./pages/CustomerPage";
+import RegisterPage from "./pages/RegisterPage";
 // import CustomersPagePaginate from "./pages/CustomersPagePaginate";
 
 const PrivateRoute = ({isAuthenticated, children}) => {
@@ -54,7 +57,10 @@ const App = () => {
                 {/*<PrivateRoute2 path="/customers" element={<CustomersPage />} />*/}
                 <Route path="/customers" element={<PrivateRoute isAuthenticated={isAuthenticated}><CustomersPage /></PrivateRoute>} />
                 <Route path="/invoices" element={<PrivateRoute isAuthenticated={isAuthenticated}><InvoicesPage /></PrivateRoute>} />
+                <Route path="/customers/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><CustomerPage /></PrivateRoute>} />
+                <Route path="/invoices/:id" element={<PrivateRoute isAuthenticated={isAuthenticated}><InvoicePage /></PrivateRoute>} />
                 <Route path="/login" element={<RedirectAuthenticated isAuthenticated={isAuthenticated}><LoginPage setIsAuthenticated={setIsAuthenticated}/></RedirectAuthenticated>} />
+                <Route path="/register" element={<RedirectAuthenticated isAuthenticated={isAuthenticated}><RegisterPage setIsAuthenticated={setIsAuthenticated}/></RedirectAuthenticated>} />
             </Routes>
         </div>
     </>

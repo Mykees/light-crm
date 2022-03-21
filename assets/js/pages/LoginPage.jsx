@@ -3,6 +3,7 @@ import axios from "axios";
 import CustomersAPI from "../services/customersAPI";
 import AuthAPI from "../services/AuthAPI";
 import {Navigate} from 'react-router-dom'
+import Input from "../components/form/Input";
 
 const LoginPage = ({setIsAuthenticated}) => {
     const [credentials,setCredentials] = useState({
@@ -44,28 +45,24 @@ const LoginPage = ({setIsAuthenticated}) => {
             {error && <div onClick={hideError} className="alert alert-dismissible alert-danger"><button type="button" className="btn-close"></button>{error}</div>}
 
             <form onSubmit={handleSubmit}>
-                <div className="form-group mb-2">
-                    <label htmlFor="username">Email</label>
-                    <input
-                        value={credentials.username}
-                        onChange={handleChange}
-                        id="username"
-                        name="username"
-                        type="email"
-                        className="form-control"
-                        placeholder="contact@mail.fr"/>
-                </div>
-                <div className="form-group mb-4">
-                    <label htmlFor="password">Mot de passe</label>
-                    <input
-                        value={credentials.password}
-                        onChange={handleChange}
-                        id="password"
-                        name="password"
-                        type="password"
-                        className="form-control"
-                        placeholder="Mot de passe"/>
-                </div>
+                <Input
+                    label={"Email"}
+                    value={credentials.username}
+                    onChange={handleChange}
+                    id={"username"}
+                    name={"username"}
+                    type={"email"}
+                    placeholder={"contact@mail.fr"}
+                />
+                <Input
+                    label={"Mot de passe"}
+                    value={credentials.password}
+                    onChange={handleChange}
+                    id={"password"}
+                    name={"password"}
+                    type={"password"}
+                    placeholder={"Mot de passe"}
+                />
 
                 <div className="form-group">
                     <button className="btn btn-success" type="submit">Se connecter</button>

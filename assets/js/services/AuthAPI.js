@@ -45,9 +45,15 @@ function hasToken () {
     return false
 }
 
+function register (data) {
+    return axios.post("http://127.0.0.1:8001/api/users",data)
+}
+
+
 export default {
     Authenticate,
     logout,
     setUp,
-    isAuthenticated
+    isAuthenticated,
+    register
 }

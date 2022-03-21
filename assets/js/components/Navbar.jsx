@@ -1,16 +1,15 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import AuthAPI from "../services/AuthAPI";
-import {useNavigate} from 'react-router-dom'
+import {Navigate} from 'react-router-dom'
 
 const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
 
-    let navigate = useNavigate()
     const handleClick = async (event) => {
         event.preventDefault()
         await AuthAPI.logout();
         setIsAuthenticated(false)
-        navigate("/login");
+        return <Navigate to="/login" replace />
     }
 
     return (
@@ -52,7 +51,7 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
                                     <Link className="btn btn-success" to="/login">Connexion</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="#" className="btn btn-secondary">Inscription</a>
+                                    <Link className="btn btn-secondary" to="/register">Incscription</Link>
                                 </li>
                             </>
                         )}
