@@ -10,6 +10,8 @@ before_script:
     - composer install
     - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
     - docker-compose up -d
+    - docker exect -it app-php bash
+    - php bin/console doctrine:fixtures:load --no-interaction
 
 cache:
     paths:
