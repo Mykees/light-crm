@@ -1,19 +1,13 @@
-image: tmaier/docker-compose:latest
+image: php:8.0-cli
 
-services:
-    - docker:dind
+
 
 before_script:
-    - apk update && apk add php8-cli
-    - docker-php-ext-install zip
+    - apt-get update && apt-get install -y git libzip-dev npm wget
     - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
-    - apk add --no-cache docker-compose
-    - apk add --no-cache composer
-    - php composer.phar
-    - docker version
+    - curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    - chmod +x /usr/local/bin/docker-compose
     - docker-compose version
-    - docker-compose up -d
-    - docker exec app-php bash
 
 cache:
     paths:
@@ -25,10 +19,10 @@ stages:
 Newman:
     stage: TestAPI
     script:
-        - apk update && apk add git libzip-dev npm wget
+        - docker-compose up -d
         - npm install -g newman
         - composer install
-#        - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
-#        - php bin/console doctrine:fixtures:load --no-interaction
-#        - newman run ./postman/postman_collection.json -e ./postman/postman_environment.json
+        - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
+        - php bin/console doctrine:fixtures:load --no-interaction
+        - newman run ./postman/postman_collection.json -e ./postman/postman_environment.json
     allow_failure: false
