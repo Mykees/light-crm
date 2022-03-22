@@ -7,10 +7,10 @@ before_script:
     - wget https://get.symfony.com/cli/installer -O - | bash
     - mv /root/.symfony/bin/symfony /usr/local/bin/symfony
     - npm install -g newman
-    - composer install
-    - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
     - docker-compose up -d
     - docker exect -it app-php bash
+    - composer install
+    - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
     - php bin/console doctrine:fixtures:load --no-interaction
 
 cache:
