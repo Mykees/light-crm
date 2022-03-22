@@ -26,7 +26,7 @@ services:
     # Mysql service
     mysql:
         image: mysql:8.0
-        platform: linux/x86_64
+#        platform: linux/x86_64
         container_name: app-mysql
         command: --default-authentication-plugin=mysql_native_password
         restart: always
