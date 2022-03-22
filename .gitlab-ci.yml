@@ -5,6 +5,7 @@ services:
 
 before_script:
     - apk update && apk add php8-cli
+    - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
     - apk add --no-cache docker-compose
     - docker version
     - docker-compose version
