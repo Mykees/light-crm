@@ -39,7 +39,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Status test\", function(){",
-							"    pm.response.to.have.status(500)",
+							"    pm.response.to.have.status(422)",
 							"})"
 						],
 						"type": "text/javascript"
