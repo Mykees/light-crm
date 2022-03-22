@@ -4,10 +4,11 @@ services:
     - docker:dind
 
 before_script:
-    - apk update && apk add php8-cli
+    - apt-get update && apt-get install -y php8-cli
     - docker-php-ext-install zip
-    - apk add --no-cache docker-compose
     - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
+    - apk add --no-cache docker-compose
+    - apk add --no-cache composer
     - php composer.phar
     - docker version
     - docker-compose version
