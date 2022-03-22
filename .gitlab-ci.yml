@@ -9,7 +9,7 @@ before_script:
     - docker version
     - docker-compose version
     - docker-compose up -d
-    - docker exec -it app-php bash
+    - docker exec app-php bash
 
 cache:
     paths:
