@@ -19,7 +19,7 @@ Newman:
     stage: TestAPI
     script:
         - docker-compose up -d
-        - docker exec -i app-php bash
+        - docker exec -it app-php bash
         - apk update && apk add git libzip-dev npm wget
         - npm install -g newman
         - composer install
