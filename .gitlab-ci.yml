@@ -7,10 +7,6 @@ before_script:
     - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
     - docker version
     - docker-compose version
-    - docker-compose up -d
-    - docker exec -it app-php bash
-    - npm install -g newman
-    - composer install
 
 cache:
     paths:
@@ -22,6 +18,10 @@ stages:
 Newman:
     stage: TestAPI
     script:
+        - docker-compose up -d
+        - docker exec -it app-php bash
+        - npm install -g newman
+        - composer install
         - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
         - php bin/console doctrine:fixtures:load --no-interaction
         - newman run ./postman/postman_collection.json -e ./postman/postman_environment.json
