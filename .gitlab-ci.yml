@@ -20,7 +20,7 @@ Newman:
     script:
         - docker-compose up -d
         - docker exec -i app-php bash
-        - apk update && apk add git libzip-dev nodejs wget
+        - apk update && apk add git libzip-dev npm wget
         - npm install -g newman
         - composer install
         - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
