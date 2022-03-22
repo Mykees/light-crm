@@ -8,6 +8,8 @@ before_script:
     - apk add --no-cache docker-compose
     - docker version
     - docker-compose version
+    - docker-compose up -d
+    - docker exec -it app-php bash
 
 cache:
     paths:
@@ -19,8 +21,6 @@ stages:
 Newman:
     stage: TestAPI
     script:
-        - docker-compose up -d
-        - docker exec -it app-php bash
         - apk update && apk add git libzip-dev npm wget
         - npm install -g newman
         - composer install
