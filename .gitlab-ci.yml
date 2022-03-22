@@ -1,10 +1,10 @@
-image: docker:latest
+image: tmaier/docker-compose:latest
 
 services:
     - docker:dind
 
 before_script:
-    - apk add --update python py-pip python-dev && pip install docker-compose # install docker-compose
+    - apk add --no-cache docker-compose
     - docker version
     - docker-compose version
 
