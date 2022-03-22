@@ -4,7 +4,6 @@ services:
     - docker:dind
 
 before_script:
-    - apt-get update && apt-get install -y git libzip-dev npm wget
     - apk add --no-cache docker-compose
     - docker version
     - docker-compose version
@@ -20,8 +19,9 @@ Newman:
     stage: TestAPI
     script:
         - docker-compose up -d
-        - npm install -g newman
         - docker exec -i app-php bash
+        - apt-get update && apt-get install -y git libzip-dev npm wget
+        - npm install -g newman
         - composer install
         - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
         - php bin/console doctrine:fixtures:load --no-interaction
