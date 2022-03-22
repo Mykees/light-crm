@@ -1,4 +1,4 @@
-image: php:7.4-cli
+image: php:8.0-cli
 
 before_script:
     - apt-get update && apt-get install -y git libzip-dev npm wget
