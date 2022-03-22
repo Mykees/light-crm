@@ -6,6 +6,8 @@ services:
 before_script:
     - apk update && apk add php8-cli
     - apk add --no-cache docker-compose
+    - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
+    - php composer.phar
     - docker version
     - docker-compose version
     - docker-compose up -d
@@ -23,9 +25,8 @@ Newman:
     script:
         - apk update && apk add git libzip-dev npm wget
         - npm install -g newman
-        - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
         - composer install
-        - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
-        - php bin/console doctrine:fixtures:load --no-interaction
-        - newman run ./postman/postman_collection.json -e ./postman/postman_environment.json
+#        - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
+#        - php bin/console doctrine:fixtures:load --no-interaction
+#        - newman run ./postman/postman_collection.json -e ./postman/postman_environment.json
     allow_failure: false
