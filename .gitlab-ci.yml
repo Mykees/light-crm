@@ -27,9 +27,9 @@ Newman:
         - wget https://get.symfony.com/cli/installer -O - | bash
         - mv /root/.symfony/bin/symfony /usr/local/bin/symfony
         - npm install -g newman
-        - composer install
         - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
         - docker-php-ext-install mysqli pdo pdo_mysql zip
+        - composer install
         - symfony server:ca:install && symfony serve -d
         - php bin/console doctrine:database:drop --force
         - php bin/console doctrine:database:create
