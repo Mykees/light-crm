@@ -85,7 +85,7 @@
             "lexik:jwt:generate-keypair --overwrite": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            ""
         ],
         "post-update-cmd": [
             "@auto-scripts"
