@@ -37,6 +37,12 @@ Launch fixtures:
 ```
 php bin/console doctrine:fixtures:load --no-interaction
 ```
+
+Start dev-server:
+```
+npm run dev-server
+```
+
 Got to home url:
 
 [http://127.0.0.1:80001](http://127.0.0.1:80001)
