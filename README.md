@@ -47,4 +47,11 @@ Got to home url:
 
 [http://127.0.0.1:80001](http://127.0.0.1:80001)
 
-Launch Test
+### Launch Test:
+- Install [newman](https://learning.postman.com/docs/running-collections/using-newman-cli/command-line-integration-with-newman/)
+- In postman/postman_environement.json, change ```"value": "http://127.0.0.1:8000/"``` to ```"value": "http://127.0.0.1:8001/"```
+
+Launch:
+```
+newman run ./postman/postman_collection.json -e ./postman/postman_environment.json
+```
