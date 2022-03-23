@@ -1,6 +1,8 @@
 
 ## Light CRM built with SF5 - API PLATFORM - REACT JS
 
+[![pipeline status](https://gitlab.com/mykeesr/light-crm/badges/main/pipeline.svg)](https://gitlab.com/mykeesr/light-crm/-/commits/main)
+
 Symfony app that allows you to manage Invoice, Customers and Users.
 
 ### Features :
@@ -8,6 +10,9 @@ Symfony app that allows you to manage Invoice, Customers and Users.
 - Manage (CRUD) Customers,Invoices and Users
 - Filter Data
 - Pagination
+- Test Unit (Postman)
+- Continuous Integration (Gitlab CI)
+
 
 ### DEMO:
 #### [Light-crm App](https://light-crm.herokuapp.com/)
@@ -35,3 +40,5 @@ php bin/console doctrine:fixtures:load --no-interaction
 Got to home url:
 
 [http://127.0.0.1:80001](http://127.0.0.1:80001)
+
+Launch Test
