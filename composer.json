@@ -81,11 +81,15 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "bin/console doctrine:database:drop --force": "symfony-cmd",
-            "bin/console doctrine:database:create --force": "symfony-cmd",
             "doctrine:migrations:migrate --no-interaction": "symfony-cmd",
             "lexik:jwt:generate-keypair --overwrite": "symfony-cmd"
-        }
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"
