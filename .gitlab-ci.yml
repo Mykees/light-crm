@@ -1,14 +1,6 @@
 image: php:8.0-cli
 
 
-
-before_script:
-    - apt-get update && apt-get install -y git libzip-dev npm wget
-    - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
-    - curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    - chmod +x /usr/local/bin/docker-compose
-    - docker-compose version
-
 cache:
     paths:
         - vendor/
@@ -18,11 +10,31 @@ stages:
 
 Newman:
     stage: TestAPI
-    script:
-        - docker-compose up -d
+    image: php:8.0-apache
+    services:
+        - name: mysql:5.7
+          alias: mysql
+    variables:
+        MYSQL_ROOT_PASSWORD: pass_test
+        MYSQL_DATABASE: myapptest
+        MYSQL_USER: myapptest
+        MYSQL_PASSWORD: myapptest
+        DATABASE_URL: 'mysql://myapptest:myapptest@mysql:3306/myapptest'
+
+    before_script:
+        - apt-get update && apt-get install -y git npm libzip-dev wget
+        - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
+        - wget https://get.symfony.com/cli/installer -O - | bash
+        - mv /root/.symfony/bin/symfony /usr/local/bin/symfony
         - npm install -g newman
         - composer install
         - mv ./config/jwt/private_test.pem ./config/jwt/private.pem && mv ./config/jwt/public_test.pem ./config/jwt/public.pem
-        - php bin/console doctrine:fixtures:load --no-interaction
+        - docker-php-ext-install mysqli pdo pdo_mysql zip
+        - symfony server:ca:install && symfony serve -d
+        - php bin/console doctrine:database:drop --force
+        - php bin/console doctrine:database:create
+        - php bin/console doctrine:migration:migrate --no-interaction
+
+    script:
         - newman run ./postman/postman_collection.json -e ./postman/postman_environment.json
     allow_failure: false

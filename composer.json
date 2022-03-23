@@ -83,13 +83,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "doctrine:migrations:migrate --no-interaction": "symfony-cmd",
             "lexik:jwt:generate-keypair": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
+        }
     },
     "conflict": {
         "symfony/symfony": "*"

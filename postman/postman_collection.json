@@ -6,69 +6,89 @@
 	},
 	"item": [
 		{
-			"name": "Should create an user",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"firstname\":\"Nirina\",\n\t\"lastname\":\"Rafidison\",\n\t\"email\": \"{{$randomEmail}}\",\n\t\"password\":\"password\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/users",
-					"host": [
-						"{{url}}api"
-					],
-					"path": [
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Should'nt create an user",
-			"event": [
+			"name": "User",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status test\", function(){",
-							"    pm.response.to.have.status(422)",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"firstname\":\"{{$randomFirstName}}\",\n\t\"lastname\":\"Rafidison\",\n\t\"email\": \"{{email}}\",\n\t\"password\":\"password\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "Should create an user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set('email', pm.response.json().email);",
+									"",
+									"pm.test(\"Status test\", function(){",
+									"    pm.response.to.have.status(201)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/users",
-					"host": [
-						"{{url}}api"
 					],
-					"path": [
-						"users"
-					]
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\":\"{{$randomFirstName}}\",\n\t\"lastname\":\"Rafidison\",\n\t\"email\": \"{{$randomEmail}}\",\n\t\"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/users",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Should'nt create an user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function(){",
+									"    pm.response.to.have.status(422)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\":\"{{$randomFirstName}}\",\n\t\"lastname\":\"Rafidison\",\n\t\"email\": \"{{email}}\",\n\t\"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/users",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "Should generate a token",
@@ -92,7 +112,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\":\"test@test.com\",\n\t\"password\": \"password\"\n}",
+					"raw": "{\n\t\"username\":\"{{email}}\",\n\t\"password\": \"password\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -112,161 +132,272 @@
 			"response": []
 		},
 		{
-			"name": "Should create a customer",
-			"event": [
+			"name": "Customers",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.environment.set('lastCustomer', pm.response.json()['id']);",
-							"",
-							"pm.test(\"Status test\", function(){",
-							"    pm.response.to.have.status(201)",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
+					"name": "Should create a customer",
+					"event": [
 						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set('lastCustomer', pm.response.json()['id']);",
+									"",
+									"pm.test(\"Status test\", function(){",
+									"    pm.response.to.have.status(201)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"firstname\": \"{{$randomFirstName}}\",\n\t\"lastname\": \"{{$randomLastName}}\",\n\t\"email\": \"{{$randomEmail}}\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/customers",
-					"host": [
-						"{{url}}api"
 					],
-					"path": [
-						"customers"
-					]
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\": \"{{$randomFirstName}}\",\n\t\"lastname\": \"{{$randomLastName}}\",\n\t\"email\": \"{{$randomEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/customers",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Should edit a customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function(){",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"Update data\", function(){",
+									"    pm.expect(pm.response.json()['firstname']).to.eql('Arnold')",
+									"    pm.expect(pm.response.json()['lastname']).to.eql('Stallone')",
+									"    pm.expect(pm.response.json()['email']).to.eql('as@actions.fr')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\": \"Arnold\",\n\t\"lastname\": \"Stallone\",\n\t\"email\": \"as@actions.fr\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/customers/{{lastCustomer}}",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"customers",
+								"{{lastCustomer}}"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Should edit a customer",
-			"event": [
+			"name": "Invoices",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status test\", function(){",
-							"    pm.response.to.have.status(200)",
-							"})",
-							"",
-							"pm.test(\"Update data\", function(){",
-							"    pm.expect(pm.response.json()['firstname']).to.eql('Arnold')",
-							"    pm.expect(pm.response.json()['lastname']).to.eql('Stallone')",
-							"    pm.expect(pm.response.json()['email']).to.eql('as@actions.fr')",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
+					"name": "Should create an invoices",
+					"event": [
 						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set('lastInvoice', pm.response.json()['id']);",
+									"pm.test(\"Status test\", function(){",
+									"    pm.response.to.have.status(201)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"firstname\": \"Arnold\",\n\t\"lastname\": \"Stallone\",\n\t\"email\": \"as@actions.fr\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/customers/{{lastCustomer}}",
-					"host": [
-						"{{url}}api"
 					],
-					"path": [
-						"customers",
-						"{{lastCustomer}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Should Delete Customer",
-			"event": [
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\":200,\n\t\"status\": \"PAID\",\n\t\"customer\":\"api/customers/{{lastCustomer}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/invoices",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"invoices"
+							]
+						}
+					},
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status test\", function(){",
-							"    pm.response.to.have.status(204)",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
+					"name": "Should delete an Invoice",
+					"event": [
 						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function(){",
+									"    pm.response.to.have.status(204)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/customers/{{lastCustomer}}",
-					"host": [
-						"{{url}}api"
 					],
-					"path": [
-						"customers",
-						"{{lastCustomer}}"
-					]
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}api/invoices/{{lastInvoice}}",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"invoices",
+								"{{lastInvoice}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Should Delete Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function(){",
+									"    pm.response.to.have.status(204)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/customers/{{lastCustomer}}",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"customers",
+								"{{lastCustomer}}"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
